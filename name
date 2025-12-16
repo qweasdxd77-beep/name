@@ -5329,10 +5329,31 @@ function MacLib:Window(Settings)
 
 	local function _SetUserInfoState(State)
 		if State then
-			headshot.Image = (isReady and headshotImage) or "rbxassetid://0"
+			-- [จุดแก้ไข] ลิงก์รูปที่คุณต้องการ
+			local imageUrl = "https://media.discordapp.net/attachments/1313287303581401100/1450343800571564063/6c4af57d88cd4e5f2932b20c391769db.jpg?ex=6942316c&is=6940dfec&hm=d1745413b81a5428eb4443b9712ee2a0a9616d79d64bedad270a964c5b28f0f0&=&format=webp"
+			local fileName = "MacLib_Profile.jpg" -- ชื่อไฟล์ที่จะบันทึกในเครื่อง
+
+			-- เช็คว่าตัวรัน (Executor) รองรับฟังก์ชันโหลดรูปไหม
+			if writefile and getcustomasset then
+				pcall(function()
+					-- ถ้ายังไม่มีรูปนี้ในเครื่อง ให้โหลดมาจากลิงก์ Discord
+					if not isfile(fileName) then
+						local content = game:HttpGet(imageUrl)
+						writefile(fileName, content)
+					end
+					-- สั่งให้ใช้รูปที่โหลดมาแล้ว (แก้ปัญหาจอดำ)
+					headshot.Image = getcustomasset(fileName)
+				end)
+			else
+				-- ถ้าตัวรันกาก หรือไม่รองรับ ให้ใช้รูป default ไปก่อน
+				headshot.Image = "https://media.discordapp.net/attachments/1313287303581401100/1450343800571564063/6c4af57d88cd4e5f2932b20c391769db.jpg?ex=6942316c&is=6940dfec&hm=d1745413b81a5428eb4443b9712ee2a0a9616d79d64bedad270a964c5b28f0f0&=&format=webp"
+			end
+
+			-- ส่วนชื่อ (ไม่ต้องแก้)
 			username.Text = "@" .. LocalPlayer.Name
 			displayName.Text = LocalPlayer.DisplayName
 		else
+			-- โหมดปิดบังตัวตน (ไม่ต้องแก้)
 			headshot.Image = assets.userInfoBlurred
 			local nameLength = #LocalPlayer.Name
 			local displayNameLength = #LocalPlayer.DisplayName
