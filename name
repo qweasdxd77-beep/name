@@ -5290,18 +5290,20 @@ function MacLib:Window(Settings)
 	end
 
 	local function _SetUserInfoState(State)
-		if State then
-			headshot.Image = (isReady and headshotImage) or "rbxassetid://0"
-			username.Text = "@" .. LocalPlayer.Name
-			displayName.Text = LocalPlayer.DisplayName
-		else
-			headshot.Image = assets.userInfoBlurred
-			local nameLength = #LocalPlayer.Name
-			local displayNameLength = #LocalPlayer.DisplayName
-			username.Text = "@" .. string.rep(".", nameLength)
-			displayName.Text = string.rep(".", displayNameLength)
-		end
-	end
+        if State then
+            -- [แก้] ใส่ลิงก์รูปของคุณตรงนี้อีกครั้ง เพื่อไม่ให้มันโดนรีเซ็ต
+            headshot.Image = "https://media.discordapp.net/attachments/1313287303581401100/1450343800571564063/6c4af57d88cd4e5f2932b20c391769db.jpg?ex=6942316c&is=6940dfec&hm=d1745413b81a5428eb4443b9712ee2a0a9616d79d64bedad270a964c5b28f0f0&=&format=webp"
+            
+            username.Text = "@" .. LocalPlayer.Name
+            displayName.Text = LocalPlayer.DisplayName
+        else
+            headshot.Image = assets.userInfoBlurred
+            local nameLength = #LocalPlayer.Name
+            local displayNameLength = #LocalPlayer.DisplayName
+            username.Text = "@" .. string.rep(".", nameLength)
+            displayName.Text = string.rep(".", displayNameLength)
+        end
+    end
 
 	local showUserInfo
 	if Settings.ShowUserInfo ~= nil then
