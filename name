@@ -615,7 +615,7 @@ local InfDashToggle = CombatTab:CreateToggle({
 })
 
 local OppositeDashToggle = CombatTab:CreateToggle({
-    Name = "Side Dask ( 10 Stud )",
+    Name = "Side Dast ( 10 Stud )",
     CurrentValue = false,
     Flag = "OppositeDash",
     Callback = function(Value)
